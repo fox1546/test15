@@ -1,4 +1,4 @@
-﻿// mfc_demo.cpp : 定义应用程序的入口点。
+﻿﻿// mfc_demo.cpp : 定义应用程序的入口点。
 //
 
 #include "framework.h"
@@ -50,6 +50,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+
+    INITCOMMONCONTROLSEX icex;
+    icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+    icex.dwICC = ICC_STANDARD_CLASSES | ICC_BAR_CLASSES;
+    InitCommonControlsEx(&icex);
 
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_MFCDEMO, szWindowClass, MAX_LOADSTRING);
