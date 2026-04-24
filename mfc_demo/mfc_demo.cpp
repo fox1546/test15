@@ -1,10 +1,11 @@
-﻿﻿// mfc_demo.cpp : 定义应用程序的入口点。
+﻿// mfc_demo.cpp : 定义应用程序的入口点。
 //
 
 #include "framework.h"
 #include "mfc_demo.h"
 #include <opencv2/opencv.hpp>
 #include <string>
+#include <vector>
 
 #define MAX_LOADSTRING 100
 
@@ -78,7 +79,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
-    return (int) msg.wParam;
+    return (int)(INT_PTR)msg.wParam;
 }
 
 ATOM MyRegisterClass(HINSTANCE hInstance)
@@ -146,25 +147,25 @@ void CreateChildWindows(HWND hWnd)
         WS_EX_CLIENTEDGE, L"STATIC", NULL,
         WS_CHILD | WS_VISIBLE | SS_BITMAP | SS_CENTERIMAGE,
         leftColX, topRowY, displayWidth, displayHeight,
-        hWnd, (HMENU)IDC_STATIC_RED, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_STATIC_RED, hInst, NULL);
     
     CreateWindowW(
         L"STATIC", L"红通道 (R):",
         WS_CHILD | WS_VISIBLE | SS_LEFT,
         leftColX, topRowY + displayHeight + 5, displayWidth - valueWidth - 10, labelHeight,
-        hWnd, (HMENU)IDC_LABEL_RED, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_LABEL_RED, hInst, NULL);
     
     g_hValueRed = CreateWindowW(
         L"STATIC", L"127",
         WS_CHILD | WS_VISIBLE | SS_RIGHT | SS_CENTERIMAGE,
         leftColX + displayWidth - valueWidth, topRowY + displayHeight + 5, valueWidth, labelHeight,
-        hWnd, (HMENU)IDC_VALUE_RED, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_VALUE_RED, hInst, NULL);
     
     g_hSliderRed = CreateWindowExW(
         0, TRACKBAR_CLASSW, NULL,
         WS_CHILD | WS_VISIBLE | TBS_AUTOTICKS | TBS_ENABLESELRANGE,
         leftColX, topRowY + displayHeight + labelHeight + 5, displayWidth, sliderHeight,
-        hWnd, (HMENU)IDC_SLIDER_RED, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_SLIDER_RED, hInst, NULL);
     SendMessageW(g_hSliderRed, TBM_SETRANGE, TRUE, MAKELONG(0, 255));
     SendMessageW(g_hSliderRed, TBM_SETPOS, TRUE, 127);
     SendMessageW(g_hSliderRed, TBM_SETTICFREQ, 32, 0);
@@ -173,25 +174,25 @@ void CreateChildWindows(HWND hWnd)
         WS_EX_CLIENTEDGE, L"STATIC", NULL,
         WS_CHILD | WS_VISIBLE | SS_BITMAP | SS_CENTERIMAGE,
         rightColX, topRowY, displayWidth, displayHeight,
-        hWnd, (HMENU)IDC_STATIC_GREEN, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_STATIC_GREEN, hInst, NULL);
     
     CreateWindowW(
         L"STATIC", L"绿通道 (G):",
         WS_CHILD | WS_VISIBLE | SS_LEFT,
         rightColX, topRowY + displayHeight + 5, displayWidth - valueWidth - 10, labelHeight,
-        hWnd, (HMENU)IDC_LABEL_GREEN, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_LABEL_GREEN, hInst, NULL);
     
     g_hValueGreen = CreateWindowW(
         L"STATIC", L"127",
         WS_CHILD | WS_VISIBLE | SS_RIGHT | SS_CENTERIMAGE,
         rightColX + displayWidth - valueWidth, topRowY + displayHeight + 5, valueWidth, labelHeight,
-        hWnd, (HMENU)IDC_VALUE_GREEN, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_VALUE_GREEN, hInst, NULL);
     
     g_hSliderGreen = CreateWindowExW(
         0, TRACKBAR_CLASSW, NULL,
         WS_CHILD | WS_VISIBLE | TBS_AUTOTICKS | TBS_ENABLESELRANGE,
         rightColX, topRowY + displayHeight + labelHeight + 5, displayWidth, sliderHeight,
-        hWnd, (HMENU)IDC_SLIDER_GREEN, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_SLIDER_GREEN, hInst, NULL);
     SendMessageW(g_hSliderGreen, TBM_SETRANGE, TRUE, MAKELONG(0, 255));
     SendMessageW(g_hSliderGreen, TBM_SETPOS, TRUE, 127);
     SendMessageW(g_hSliderGreen, TBM_SETTICFREQ, 32, 0);
@@ -200,25 +201,25 @@ void CreateChildWindows(HWND hWnd)
         WS_EX_CLIENTEDGE, L"STATIC", NULL,
         WS_CHILD | WS_VISIBLE | SS_BITMAP | SS_CENTERIMAGE,
         leftColX, bottomRowY, displayWidth, displayHeight,
-        hWnd, (HMENU)IDC_STATIC_BLUE, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_STATIC_BLUE, hInst, NULL);
     
     CreateWindowW(
         L"STATIC", L"蓝通道 (B):",
         WS_CHILD | WS_VISIBLE | SS_LEFT,
         leftColX, bottomRowY + displayHeight + 5, displayWidth - valueWidth - 10, labelHeight,
-        hWnd, (HMENU)IDC_LABEL_BLUE, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_LABEL_BLUE, hInst, NULL);
     
     g_hValueBlue = CreateWindowW(
         L"STATIC", L"127",
         WS_CHILD | WS_VISIBLE | SS_RIGHT | SS_CENTERIMAGE,
         leftColX + displayWidth - valueWidth, bottomRowY + displayHeight + 5, valueWidth, labelHeight,
-        hWnd, (HMENU)IDC_VALUE_BLUE, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_VALUE_BLUE, hInst, NULL);
     
     g_hSliderBlue = CreateWindowExW(
         0, TRACKBAR_CLASSW, NULL,
         WS_CHILD | WS_VISIBLE | TBS_AUTOTICKS | TBS_ENABLESELRANGE,
         leftColX, bottomRowY + displayHeight + labelHeight + 5, displayWidth, sliderHeight,
-        hWnd, (HMENU)IDC_SLIDER_BLUE, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_SLIDER_BLUE, hInst, NULL);
     SendMessageW(g_hSliderBlue, TBM_SETRANGE, TRUE, MAKELONG(0, 255));
     SendMessageW(g_hSliderBlue, TBM_SETPOS, TRUE, 127);
     SendMessageW(g_hSliderBlue, TBM_SETTICFREQ, 32, 0);
@@ -227,25 +228,25 @@ void CreateChildWindows(HWND hWnd)
         WS_EX_CLIENTEDGE, L"STATIC", NULL,
         WS_CHILD | WS_VISIBLE | SS_BITMAP | SS_CENTERIMAGE,
         rightColX, bottomRowY, displayWidth, displayHeight,
-        hWnd, (HMENU)IDC_STATIC_GRAY, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_STATIC_GRAY, hInst, NULL);
     
     CreateWindowW(
         L"STATIC", L"灰度通道:",
         WS_CHILD | WS_VISIBLE | SS_LEFT,
         rightColX, bottomRowY + displayHeight + 5, displayWidth - valueWidth - 10, labelHeight,
-        hWnd, (HMENU)IDC_LABEL_GRAY, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_LABEL_GRAY, hInst, NULL);
     
     g_hValueGray = CreateWindowW(
         L"STATIC", L"127",
         WS_CHILD | WS_VISIBLE | SS_RIGHT | SS_CENTERIMAGE,
         rightColX + displayWidth - valueWidth, bottomRowY + displayHeight + 5, valueWidth, labelHeight,
-        hWnd, (HMENU)IDC_VALUE_GRAY, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_VALUE_GRAY, hInst, NULL);
     
     g_hSliderGray = CreateWindowExW(
         0, TRACKBAR_CLASSW, NULL,
         WS_CHILD | WS_VISIBLE | TBS_AUTOTICKS | TBS_ENABLESELRANGE,
         rightColX, bottomRowY + displayHeight + labelHeight + 5, displayWidth, sliderHeight,
-        hWnd, (HMENU)IDC_SLIDER_GRAY, hInst, NULL);
+        hWnd, (HMENU)(INT_PTR)IDC_SLIDER_GRAY, hInst, NULL);
     SendMessageW(g_hSliderGray, TBM_SETRANGE, TRUE, MAKELONG(0, 255));
     SendMessageW(g_hSliderGray, TBM_SETPOS, TRUE, 127);
     SendMessageW(g_hSliderGray, TBM_SETTICFREQ, 32, 0);
@@ -356,7 +357,7 @@ void DisplayChannelImage(HWND hStatic, const cv::Mat& channel, int threshold)
     cv::Mat resized;
     double scaleX = static_cast<double>(displayWidth) / displayMat.cols;
     double scaleY = static_cast<double>(displayHeight) / displayMat.rows;
-    double scale = std::min(scaleX, scaleY);
+    double scale = (std::min)(scaleX, scaleY);
     
     if (scale > 0)
     {
@@ -370,7 +371,7 @@ void DisplayChannelImage(HWND hStatic, const cv::Mat& channel, int threshold)
     HBITMAP hBitmap = MatToHBITMAP(resized);
     if (hBitmap != NULL)
     {
-        HBITMAP hOldBitmap = (HBITMAP)SendMessageW(hStatic, STM_GETIMAGE, IMAGE_BITMAP, 0);
+        HBITMAP hOldBitmap = (HBITMAP)(INT_PTR)SendMessageW(hStatic, STM_GETIMAGE, IMAGE_BITMAP, 0);
         SendMessageW(hStatic, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap);
         
         if (hOldBitmap != NULL)
@@ -450,7 +451,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_HSCROLL:
         {
             HWND hSlider = (HWND)lParam;
-            int pos = SendMessageW(hSlider, TBM_GETPOS, 0, 0);
+            int pos = (int)(INT_PTR)SendMessageW(hSlider, TBM_GETPOS, 0, 0);
             WCHAR szValue[10];
             
             if (hSlider == g_hSliderRed)
@@ -513,13 +514,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         {
             HBITMAP hBitmap;
-            hBitmap = (HBITMAP)SendMessageW(g_hStaticRed, STM_GETIMAGE, IMAGE_BITMAP, 0);
+            hBitmap = (HBITMAP)(INT_PTR)SendMessageW(g_hStaticRed, STM_GETIMAGE, IMAGE_BITMAP, 0);
             if (hBitmap) DeleteObject(hBitmap);
-            hBitmap = (HBITMAP)SendMessageW(g_hStaticGreen, STM_GETIMAGE, IMAGE_BITMAP, 0);
+            hBitmap = (HBITMAP)(INT_PTR)SendMessageW(g_hStaticGreen, STM_GETIMAGE, IMAGE_BITMAP, 0);
             if (hBitmap) DeleteObject(hBitmap);
-            hBitmap = (HBITMAP)SendMessageW(g_hStaticBlue, STM_GETIMAGE, IMAGE_BITMAP, 0);
+            hBitmap = (HBITMAP)(INT_PTR)SendMessageW(g_hStaticBlue, STM_GETIMAGE, IMAGE_BITMAP, 0);
             if (hBitmap) DeleteObject(hBitmap);
-            hBitmap = (HBITMAP)SendMessageW(g_hStaticGray, STM_GETIMAGE, IMAGE_BITMAP, 0);
+            hBitmap = (HBITMAP)(INT_PTR)SendMessageW(g_hStaticGray, STM_GETIMAGE, IMAGE_BITMAP, 0);
             if (hBitmap) DeleteObject(hBitmap);
             
             g_originalImage.release();
